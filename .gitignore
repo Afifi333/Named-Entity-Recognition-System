@@ -12,15 +12,17 @@ build/
 .ipynb_checkpoints/
 
 # Large data files
-data/*.pkl
-data/*.pth
+# (Small enough to include in repo)
+# data/*.pkl
+# data/*.pth
 embeddings/*.txt
-embeddings/*.bin
-embeddings/*.npy
+# embeddings/*.bin
+# embeddings/*.npy
 
 # Trained models (heavy)
-models/*.pt
-models/*.bin
+# (Classic models are small enough (~5MB) to include in repo)
+# models/*.pt
+# models/*.bin
 models/transformer_ner/
 
 # Logs

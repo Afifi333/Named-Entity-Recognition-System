@@ -47,7 +47,7 @@ project_nlp_2/
 └── README.md              # This file
 ```
 
-*(Note: Data, Models, and Embeddings folders are ignored in version control due to size constraints. You can generate them by running the notebooks or downloading the pre-trained model directly from Hugging Face.)*
+*(Note: The heavy Transformer model (`models/transformer_ner/`) and GloVe text file are ignored in version control due to size constraints. Classic PyTorch models, data vocabs, and NumPy embeddings are included!)*
 
 ---
 
