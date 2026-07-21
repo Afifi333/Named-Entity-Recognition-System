@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Large data files
+data/*.pkl
+data/*.pth
+embeddings/*.txt
+embeddings/*.bin
+embeddings/*.npy
+
+# Trained models (heavy)
+models/*.pt
+models/*.bin
+models/transformer_ner/
+
+# Logs
+logs/*.json
+logs/*.txt
+
+# Outputs
+outputs/*.csv
+outputs/*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+venv/
+.venv/
