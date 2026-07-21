@@ -7,7 +7,6 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.1+-red?style=flat-square&logo=pytorch)](https://pytorch.org)
 [![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow?style=flat-square&logo=huggingface)](https://huggingface.co)
 [![Gradio](https://img.shields.io/badge/Gradio-4.7+-orange?style=flat-square)](https://gradio.app)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
 </div>
 
@@ -31,7 +30,7 @@ The system implements and compares **four deep learning architectures**:
 ## 📁 Repository Structure
 
 ```text
-project_nlp_2/
+Named-Entity-Recognition-System/
 │
 ├── notebooks/                              # 🗂️ Core pipeline notebooks (run in order)
 │   ├── 01_EDA_and_Data_Exploration.ipynb   
@@ -40,6 +39,13 @@ project_nlp_2/
 │   ├── 04_Transformer_Token_Classification.ipynb 
 │   ├── 05_Evaluation_and_Comparison.ipynb    
 │   └── 06_Deployment.ipynb                  
+│
+├── data/                  # Saved vocabularies (Included)
+├── models/                # Trained PyTorch models (LSTM/BiLSTM included)
+├── embeddings/            # GloVe / FastText arrays (Included)
+├── outputs/               # Final metric reports (JSON, CSV)
+├── figures/               # Generated plots and visualizations
+├── logs/                  # Training logs (JSON)
 │
 ├── Project_Report.md      # Comprehensive technical project report
 ├── app.py                 # Standalone Gradio web app
@@ -70,7 +76,9 @@ The Gradio web app uses our fine-tuned DistilBERT model. It is designed to autom
    ```bash
    python app.py
    ```
-   *Note: The app will automatically download the pre-trained model `Mohamed123Afifi/NER-DistilBERT` from the Hugging Face Hub if you don't have it locally!*
+
+> [!IMPORTANT]
+> **Model Download Notice:** The main Transformer model is too large for GitHub. However, the application is programmed to **automatically download** it from [Mohamed123AFIFI/NER-DistilBERT](https://huggingface.co/Mohamed123AFIFI/NER-DistilBERT) upon first run. Just ensure you have an active internet connection when running `python app.py` for the first time!
 
 ---
 
