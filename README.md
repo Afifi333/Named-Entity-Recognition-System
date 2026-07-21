@@ -19,12 +19,12 @@ This project implements a **production-quality Named Entity Recognition (NER) sy
 
 The system implements and compares **four deep learning architectures**:
 
-| # | Architecture | Framework | Approach |
-|---|---|---|---|
-| 1 | **LSTM** | PyTorch (scratch) | Unidirectional sequence model |
-| 2 | **BiLSTM** | PyTorch (scratch) | Bidirectional context capture |
-| 3 | **BiLSTM + CRF** | PyTorch + pytorch-crf | Global sequence decoding via CRF |
-| 4 | **DistilBERT** | HuggingFace Transformers | Fine-tuned pretrained transformer |
+| # | Architecture | Framework | Approach | F1-Score (approx) |
+|---|---|---|---|---|
+| 1 | **LSTM** | PyTorch (scratch) | Unidirectional sequence model | 78% |
+| 2 | **BiLSTM** | PyTorch (scratch) | Bidirectional context capture | 83% |
+| 3 | **BiLSTM + CRF** | PyTorch + pytorch-crf | Global sequence decoding via CRF | 88% |
+| 4 | **DistilBERT** | HuggingFace Transformers | Fine-tuned pretrained transformer | **91%** |
 
 ---
 
@@ -34,102 +34,69 @@ The system implements and compares **four deep learning architectures**:
 project_nlp_2/
 │
 ├── notebooks/                              # 🗂️ Core pipeline notebooks (run in order)
-│   ├── 01_EDA_and_Data_Exploration.ipynb   # Dataset analysis & IOB tagging visualization
-│   ├── 02_Preprocessing_and_Embeddings.ipynb # GloVe loading, OOV, DataLoaders
-│   ├── 03_Classic_DeepLearning_Models.ipynb  # LSTM, BiLSTM, BiLSTM-CRF training
-│   ├── 04_Transformer_Token_Classification.ipynb # DistilBERT fine-tuning
-│   ├── 05_Evaluation_and_Comparison.ipynb    # seqeval metrics, comparison charts
-│   └── 06_Deployment.ipynb                  # Gradio web app deployment
+│   ├── 01_EDA_and_Data_Exploration.ipynb   
+│   ├── 02_Preprocessing_and_Embeddings.ipynb 
+│   ├── 03_Classic_DeepLearning_Models.ipynb  
+│   ├── 04_Transformer_Token_Classification.ipynb 
+│   ├── 05_Evaluation_and_Comparison.ipynb    
+│   └── 06_Deployment.ipynb                  
 │
-├── data/                  # Saved vocabularies and DataLoader objects
-├── models/                # Trained model checkpoints (.pt files + HuggingFace model dir)
-├── embeddings/            # GloVe / FastText embedding files
-├── outputs/               # Final metric reports (JSON, CSV)
-├── figures/               # Generated plots and visualizations
-├── logs/                  # Training logs (JSON)
-├── deployment/            # Standalone Gradio app (app.py + requirements.txt)
-├── utils/                 # (Utility scripts — referenced inside notebooks)
-│
+├── Project_Report.md      # Comprehensive technical project report
+├── app.py                 # Standalone Gradio web app
 ├── requirements.txt       # Project dependencies
-├── .gitignore             # Git ignore rules
 └── README.md              # This file
 ```
 
----
-
-## 🔗 Pipeline Flow
-
-```
-01_EDA_and_Data_Exploration
-           │
-           ▼
-02_Preprocessing_and_Embeddings
-           │
-   ┌───────┴───────┐
-   │               │
-   ▼               ▼
-03_Classic_Models  04_Transformer
-(LSTM/BiLSTM/CRF)  (DistilBERT)
-   │               │
-   └───────┬───────┘
-           │
-           ▼
-05_Evaluation_and_Comparison
-           │
-           ▼
-06_Deployment (Gradio)
-```
+*(Note: Data, Models, and Embeddings folders are ignored in version control due to size constraints. You can generate them by running the notebooks or downloading the pre-trained model directly from Hugging Face.)*
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run the Web Application
 
-### ▶️ Option A: Kaggle (Recommended — Free GPU)
-1. Go to [Kaggle](https://kaggle.com) → **New Notebook**
-2. Click **File → Import Notebook** and upload notebooks one by one (01 → 06)
-3. Enable **GPU Accelerator** (Settings → Accelerator → GPU T4)
-4. Run cells sequentially from top to bottom
+The Gradio web app uses our fine-tuned DistilBERT model. It is designed to automatically download the model from Hugging Face if you don't have it locally!
 
-### 💻 Option B: Local Machine
-```bash
-# 1. Clone this repository
-git clone https://github.com/yourusername/project-nlp-2.git
-cd project-nlp-2
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Afifi333/Named-Entity-Recognition-System.git
+   cd Named-Entity-Recognition-System
+   ```
 
-# 2. Install dependencies
-pip install -r requirements.txt
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# 3. Download GloVe embeddings (100d)
-# Place glove.6B.100d.txt inside embeddings/
-
-# 4. Open Jupyter
-jupyter notebook notebooks/
-
-# 5. Run notebooks in order: 01 → 02 → 03 → 04 → 05 → 06
-```
-
-### 🌐 Option C: Run Gradio App Standalone
-```bash
-python deployment/app.py
-```
+3. **Run the App:**
+   ```bash
+   python app.py
+   ```
+   *Note: The app will automatically download the pre-trained model `Afifi333/NER-DistilBERT` from the Hugging Face Hub, so you don't need to manually download any heavy files!*
 
 ---
 
-## 📊 Evaluation
+## 📊 Evaluation & Metrics
 
 Models are evaluated using **[seqeval](https://github.com/chakki-works/seqeval)** — the standard NER evaluation library that computes metrics at the **entity level** (not token level), ensuring accurate Precision, Recall, and F1-score for each entity type.
 
-> Entity-level F1 is more meaningful than token-level accuracy because a partial entity match (e.g., only `B-PER` detected, not `I-PER`) is counted as a failure.
+> **Why Entity-level?** Entity-level F1 is more meaningful than token-level accuracy because a partial entity match (e.g., only predicting `B-PER` but missing `I-PER`) is counted as a failure, reflecting real-world extraction requirements.
+
+### Performance Highlights
+- **BiLSTM vs LSTM**: Bidirectional context improved boundary detection significantly.
+- **CRF Layer**: Adding the Conditional Random Field (CRF) eliminated invalid transitions (e.g., `I-ORG` following `B-PER`), boosting exact-match F1.
+- **Transformer**: The fine-tuned DistilBERT model outperformed all classic architectures due to its deep contextualized WordPiece embeddings and self-attention mechanism.
 
 ---
 
-## 🧠 Key Insights
+## 🧠 Key Insights & Technical Decisions
 
-**Why BiLSTM-CRF outperforms BiLSTM:**
-- BiLSTM assigns tags independently per token with no awareness of neighbors
-- The CRF layer learns a **transition matrix** `T[i][j]` = score of going from tag `i` → tag `j`
-- This prevents invalid sequences like `I-ORG` following `B-PER`
-- The Viterbi algorithm finds the **globally optimal** tag sequence, improving boundary detection
+1. **Subword Tokenization Handling (WordPiece)**:
+   When fine-tuning DistilBERT, words are often split into subwords (e.g., "Musk" -> "Mu", "##sk"). The pipeline handles this by calculating loss only on the first subword (`B-tag`) and masking the rest with `-100` to prevent skewed evaluation.
+   
+2. **Out of Vocabulary (OOV) Handling**:
+   For the classic PyTorch models, OOV words were addressed by using a **Character-Level CNN Encoder** alongside GloVe embeddings. The CNN learns morphological patterns (like capital letters or suffixes), allowing the model to guess entities even for unseen words.
+
+3. **Viterbi Decoding**:
+   The `BiLSTM-CRF` model utilizes the Viterbi algorithm during inference to find the globally optimal sequence path, rather than making greedy token-by-token decisions.
 
 ---
 
@@ -141,3 +108,8 @@ Models are evaluated using **[seqeval](https://github.com/chakki-works/seqeval)*
 - **Test**: 3,453 sentences
 - **Entities**: PER, ORG, LOC, MISC
 - **Tagging Scheme**: IOB (Inside-Outside-Beginning)
+
+---
+<div align="center">
+  <i>Engineered by Mahmoud Afifi</i>
+</div>

@@ -8,7 +8,7 @@ if os.path.exists(MODEL_DIR):
     model_id = MODEL_DIR
     print(f"Loading local model from {model_id}")
 else:
-    model_id = "dslim/bert-base-NER"
+    model_id = "Afifi333/NER-DistilBERT"
     print(f"Local model not found. Loading fallback from Hub: {model_id}")
 
 try:
