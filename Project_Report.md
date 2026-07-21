@@ -1,6 +1,6 @@
 # 📄 Technical Project Report: Named Entity Recognition (NER) System
 
-**Author:** Mahmoud Afifi  
+**Author:** Mohamed Afifi  
 **Date:** July 2026  
 **Domain:** Natural Language Processing (NLP)
 

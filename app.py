@@ -8,8 +8,8 @@ if os.path.exists(MODEL_DIR):
     model_id = MODEL_DIR
     print(f"Loading local model from {model_id}")
 else:
-    model_id = "Afifi333/NER-DistilBERT"
-    print(f"Local model not found. Loading fallback from Hub: {model_id}")
+    model_id = "Mohamed123Afifi/NER-DistilBERT"
+    print(f"Local model not found. Downloading custom model from Hugging Face Hub: {model_id}")
 
 try:
     # Use aggregation_strategy to merge B- and I- tags properly

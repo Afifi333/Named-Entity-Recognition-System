@@ -70,7 +70,7 @@ The Gradio web app uses our fine-tuned DistilBERT model. It is designed to autom
    ```bash
    python app.py
    ```
-   *Note: The app will automatically download the pre-trained model `Afifi333/NER-DistilBERT` from the Hugging Face Hub, so you don't need to manually download any heavy files!*
+   *Note: The app will automatically download the pre-trained model `Mohamed123Afifi/NER-DistilBERT` from the Hugging Face Hub if you don't have it locally!*
 
 ---
 
@@ -118,5 +118,5 @@ Models are evaluated using **[seqeval](https://github.com/chakki-works/seqeval)*
 
 ---
 <div align="center">
-  <i>Engineered by Mahmoud Afifi</i>
+  <i>Engineered by Mohamed Afifi</i>
 </div>
