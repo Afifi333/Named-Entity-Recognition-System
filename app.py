@@ -8,7 +8,7 @@ if os.path.exists(MODEL_DIR):
     model_id = MODEL_DIR
     print(f"Loading local model from {model_id}")
 else:
-    model_id = "Mohamed123Afifi/NER-DistilBERT"
+    model_id = "Mohamed123AFIFI/NER-DistilBERT"
     print(f"Local model not found. Downloading custom model from Hugging Face Hub: {model_id}")
 
 try:
